@@ -33,6 +33,7 @@ def lambda_handler(event, context):
 		scale_down_behavior='TERMINATE_AT_TASK_COMPLETION'
 		custom_ami_id='ami-0f33e21674eed03c6'
 		num_file_per_cluster=2
+		print(s3bucket,cntPrefix)
 
 	# determine the number of files you want to process in one cluster / multiple clusters
 		cntPages=paginator.paginate(Bucket=s3bucket,Prefix=cntPrefix,MaxKeys=999)

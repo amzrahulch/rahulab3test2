@@ -10,12 +10,16 @@ import sys
 from pyspark.sql import SparkSession
 import subprocess
 
-sample_id = str(sys.argv[1]).split(',')
-pathParams = str(sys.argv[2]).split(',')
+inputs = str(sys.argv[1]).split('#')
+print(inputs)
+sample_id=inputs[0]
+pathparams=inputs[1]
+
 hl.init()
 spark = SparkSession.builder.getOrCreate()
 
 for i in sample_id:
+	print("for loop",i)
 	filename = 's3://ab3/dev_input_vcf/year=2021/month=8/wk=3' + i + '/' + i + '.hard-filtered.vcf.bgz'
 	#if "additional_698_related" in filename:
 	#	continue
