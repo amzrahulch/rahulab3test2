@@ -13,14 +13,16 @@ import subprocess
 inputs = str(sys.argv[1]).split('#')
 print(inputs)
 sample_id=inputs[0].split(',')
-pathparams=inputs[1]
-
+pathparams=inputs[1].split(',')
+year=pathparams[0]
+month=pathparams[1]
+week=pathparams[2]
 hl.init()
 spark = SparkSession.builder.getOrCreate()
 
 for i in sample_id:
 	print("for loop",i)
-	filename = 's3://ab3/dev_input_vcf/year=2021/month=8/wk=3' + i + '/' + i + '.hard-filtered.vcf.bgz'
+	filename = 's3://ab3/dev_input_vcf/year=' + year + '/month=' + month + '/wk=' + week + '/' + i + '/' + i + '.hard-filtered.vcf.bgz'
 	#if "additional_698_related" in filename:
 	#	continue
 	#else:
