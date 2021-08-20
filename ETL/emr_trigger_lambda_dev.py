@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     # list all vcfs by paginating
 # output=2500
 		cntPrefix="dev_input_vcf/year="+year+"/month="+month+"/wk="+week+"/ | wc -l"
-		s3bucket=rahulab3test
+		s3bucket='rahulab3test'
 		cluster_name='hailtest'
 		emr_log_location='s3n://coviddatasalaunch/elasticmapreduce/'
 		master_instance_type='m5.xlarge'
