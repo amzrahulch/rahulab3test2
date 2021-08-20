@@ -10,7 +10,7 @@ def lambda_handler(event, context):
 	if 'SUCCESS' in key:
     # list all vcfs by paginating
 # output=2500
-		output = subprocess.getoutput('/opt/aws s3 ls ab3/dev_input_vcf/ | wc -l')
+		output = subprocess.getoutput('/opt/aws s3 ls rahulab3test/dev_input_vcf/ | wc -l')
 		cluster_name='hailtest'
 		emr_log_location='s3n://coviddatasalaunch/elasticmapreduce/'
 		master_instance_type='m5.xlarge'
@@ -34,9 +34,9 @@ def lambda_handler(event, context):
 
 	# script which converts vcf to parquet
 		#s3_script_path='s3://ab3/dev_artifacts/vcf_parquet_transform_dev.py'
-		s3_script_path='s3://ab3/dev_artifacts/test/ETL/vcf_parquet_transform_dev.py'
+		s3_script_path='s3://rahulab3test/dev_artifacts/test/ETL/vcf_parquet_transform_dev.py'
 		print(output,maxkey)
-		pages = paginator.paginate(Bucket='ab3',Prefix='dev_input_vcf/',MaxKeys=maxkey)
+		pages = paginator.paginate(Bucket='rahulab3test',Prefix='dev_input_vcf/',MaxKeys=maxkey)
 		params=''
 	# process each batch of files (determined from maxkey)
 		for page in pages:
