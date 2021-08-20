@@ -11,6 +11,7 @@ from pyspark.sql import SparkSession
 import subprocess
 
 sample_id = str(sys.argv[1]).split(',')
+pathParams = str(sys.argv[2]).split(',')
 hl.init()
 spark = SparkSession.builder.getOrCreate()
 
