@@ -12,7 +12,7 @@ import subprocess
 
 inputs = str(sys.argv[1]).split('#')
 print(inputs)
-sample_id=inputs[0]
+sample_id=inputs[0].split(',')
 pathparams=inputs[1]
 
 hl.init()
