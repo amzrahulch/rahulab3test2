@@ -14,8 +14,8 @@ def lambda_handler(event, context):
 		params2=year+","+month+","+week
     # list all vcfs by paginating
 # output=2500
-		oscommand="/opt/aws s3 ls rahulab3test/dev_input_vcf/year="+year+"/month="+month+"/wk="+week+"/ | wc -l"
-		output = subprocess.getoutput(oscommand)
+		cntPrefix="dev_input_vcf/year="+year+"/month="+month+"/wk="+week+"/ | wc -l"
+		s3bucket=rahulab3test
 		cluster_name='hailtest'
 		emr_log_location='s3n://coviddatasalaunch/elasticmapreduce/'
 		master_instance_type='m5.xlarge'
@@ -32,13 +32,19 @@ def lambda_handler(event, context):
 		autoscaling_role='emr-autoscaling-hailtest'
 		scale_down_behavior='TERMINATE_AT_TASK_COMPLETION'
 		custom_ami_id='ami-0f33e21674eed03c6'
-		num_file_per_cluster=26
+		num_file_per_cluster=2
 
 	# determine the number of files you want to process in one cluster / multiple clusters
-		maxkey=int(int(output)/2)
+		cntPages=paginator.paginate(Bucket=s3bucket,Prefix=cntPrefix,MaxKeys=999)
+		output=0
+		for pagec in cntPages:
+			for obj in pagec['Contents']:
+				if 'bgz' in str(obj['Key']):
+					output=output+1
 
 	# script which converts vcf to parquet
 		#s3_script_path='s3://ab3/dev_artifacts/vcf_parquet_transform_dev.py'
+		maxkey=int(int(output)/int(num_file_per_cluster))
 		s3_script_path='s3://ab3/dev_artifacts/test/ETL/vcf_parquet_transform_dev.py'
 		print(output,maxkey)
 		pages = paginator.paginate(Bucket='ab3',Prefix='dev_input_vcf/',MaxKeys=maxkey)
