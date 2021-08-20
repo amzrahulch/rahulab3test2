@@ -36,5 +36,5 @@ for i in sample_id:
 	v_spark_renamed=v_spark_renamed.withColumn('ref',v_spark_renamed.alleles[0]).withColumn('alt',v_spark_renamed.alleles[1])
 	v_spark_renamed = v_spark_renamed.withColumnRenamed("locus.contig","chrom").withColumnRenamed("locus.position","pos")
 	v_spark_renamed.createOrReplaceTempView("variant_v")
-	df=spark.sql("SELECT SELECT concat(chrom, ':', ref, ':', alt, ':', cast(pos as string)) as variant_id,* FROM variant_v where length(chrom)<6")
+	df=spark.sql("SELECT concat(chrom, ':', ref, ':', alt, ':', cast(pos as string)) as variant_id,* FROM variant_v where length(chrom)<6")
 	df.write.parquet('s3://rahulab3test/dev_output_parquet/'+i+'/')
